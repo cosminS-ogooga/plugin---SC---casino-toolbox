@@ -82,8 +82,9 @@ if( function_exists('acf_register_block_type') ):
 					'id' => '',
 				),
 				'choices' => array(
-					"tc" => "Cu depunere",
-					"bn" => "Fara depunere",
+					"not-set" => "Not set",
+					"tc" => "With deposit",
+					"bn" => "No deposit",
 					"lc" => "Live",
 					"cp" => "Sport",
 				),

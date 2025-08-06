@@ -20,19 +20,19 @@ $casino_ID = $casino_default_casino->ID;
 
 if ( $casino_offer_type == "tc" ) {
 	$casino_custom_offer_main_title = get_field( 'oferta_cu_depunere',  $casino_ID);
-	$offer_type_name = 'Oferta cu depunere';
+	$offer_type_name = 'With deposit';
 }
 else if ( $casino_offer_type == "bn" ) {
 	$casino_custom_offer_main_title = get_field( 'oferta_fara_depunere',  $casino_ID);
-	$offer_type_name = 'Oferta fara depunere';
+	$offer_type_name = 'No deposit';
 }
 else if ( $casino_offer_type == "lc" ) {
 	$casino_custom_offer_main_title = get_field( 'oferta_casinouri_live',  $casino_ID);
-	$offer_type_name = 'Oferta live casino';
+	$offer_type_name = 'Live';
 }
 else {
 	$casino_custom_offer_main_title = get_field( 'oferta_case_pariuri',  $casino_ID);
-	$offer_type_name = 'Oferta case pariuri casino';
+	$offer_type_name = 'Sport';
 }
 
 $casino_custom_offer_bonus_code =  get_field( $casino_offer_type . "_bonus_code",  $casino_ID);
@@ -45,7 +45,7 @@ $site_url = get_site_url() . '/goaffcas/' . $casino_offer_type . '-' . $low_titl
 // Create id attribute allowing for custom "anchor" value.
 $id = 'acf-casino-default-offer-' . $block['id'];
 if( !empty($block['anchor']) ) {
-    $id = $block['anchor'];
+	$id = $block['anchor'];
 }
 
 // Create class attribute allowing for custom "className" and "align" values.
@@ -53,7 +53,7 @@ $className = 'casino-toolbox acf-casino-default-offer col-12 offer-1 offer-full-
 
 
 if( !empty($block['className']) ) {
-    $className .= ' ' . $block['className'];
+	$className .= ' ' . $block['className'];
 }
 
 ?>
@@ -62,11 +62,23 @@ if( !empty($block['className']) ) {
 	<div class="row m-md-0">
 
 		<div style="background: {{item.bg}}" class="col-12 col-md-3 col-logo logo-box--bg mb-3 mb-md-0">
-			<a href="<?php echo $site_url; ?>" class="casino-logo-fit-container">
-				<div class="logo-box">
-					<?php echo get_the_post_thumbnail( $casino_ID, 'full' ); ?>
-				</div>
-			</a>
+			
+			<?php
+				//Affiliation shortcode 
+				echo do_shortcode('
+					[affiliate_link 
+						id="aff-' . $casino_ID . '"
+						url=" ' . $site_url . '" 
+						type_offer=" ' . $offer_type_name . '"
+						offer-location="Block - Default Offer - Logo"
+						casino="' . get_the_title( $casino_ID ) . '" 
+						position="0" 
+						class="casino-logo-fit-container"
+					]
+						<div class="logo-box">' . get_the_post_thumbnail( $casino_ID, 'full' ) . '</div>
+					[/affiliate_link]'
+				); 
+			?>
 
 			<?php
 				if ($casino_tag_text) {
@@ -79,8 +91,24 @@ if( !empty($block['className']) ) {
 		</div>
 
 		<div class="col-12 col-md-6 align-self-center col-info">
+		
 			<p class="sc-h4-offer">
-				<a href="<?php echo $site_url; ?>" rel="nofollow" class="referral"><?php echo esc_html( $casino_custom_offer_main_title ); ?></a>
+				<?php
+					//Affiliation shortcode 
+					echo do_shortcode('
+						[affiliate_link 
+							id="aff-' . $casino_ID . '"
+							url=" ' . $site_url . '" 
+							type_offer=" ' . $offer_type_name . '"
+							offer-location="Block - Default Offer - Offer Title"
+							casino="' . get_the_title( $casino_ID ) . '" 
+							position="0"
+							class=""
+						]
+							' . esc_html( $casino_custom_offer_main_title ) . '
+						[/affiliate_link]'
+					); 
+				?>
 			</p>
 
 			<?php if ( get_field( $casino_offer_type . "_bonus_code",  $casino_ID) ) echo '<p class="bonus-code font-weight-bold">Cod bonus: <span>' . esc_html( $casino_custom_offer_bonus_code ) . '</span></p>' ?>
@@ -111,8 +139,24 @@ if( !empty($block['className']) ) {
 					</svg>
 				</div>
 			</div>
-			<a href="<?php echo $site_url; ?>" target="_blank" rel="nofollow" data-casino-name="<?php echo get_the_title( $casino_ID ) ?>" data-offer-type="<?php echo $offer_type_name ?>" class="btn btn--2 mb-3 referral affiliate-meta-link">Profită Acum</a>
-
+			
+			<?php
+				//Affiliation shortcode 
+				echo do_shortcode('
+					[affiliate_link 
+						id="aff-' . $casino_ID . '"
+						url=" ' . $site_url . '" 
+						type_offer=" ' . $offer_type_name . '"
+						offer-location="Block - Default Offer - Button"
+						casino="' . get_the_title( $casino_ID ) . '" 
+						position="0" 
+						class="btn btn--2 mb-3"
+					]
+						Profită Acum
+					[/affiliate_link]'
+				); 
+			?>
+			
 			<a href="<?php echo esc_url( get_the_permalink( $casino_ID ) ) ?>" class="casino-review d-none">Recenzie <?php echo get_the_title( $casino_ID ); ?></a>
 
 			<div class="see-more-btn d-none d-md-inline">
@@ -159,30 +203,30 @@ if( !empty($block['className']) ) {
 			<div class="row m-0">
 
 				<div class="col-12 col-md-6 col-lg-3">
-            <div class="card">
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                    <div class="title">Informații Generale</div>
-                    <a href="<?php echo esc_url( get_the_permalink( $casino_ID ) ) ?>" class="link">Vezi toate ></a>
-                </div>
-                <?php 
-                $meta_info_1 = get_field('meta_info_1', $casino_ID);
-                if (!empty($meta_info_1['meta_repeater'])):
-                    foreach ($meta_info_1['meta_repeater'] as $meta): ?>
-                        <div class="border-bottom">
-                            <div><?= htmlspecialchars($meta['meta_left']); ?></div>
-                            <div class="text-right">
-                                <strong><?= htmlspecialchars($meta['meta_right']); ?></strong>
-                            </div>
-                        </div>
-                    <?php endforeach;
-                endif; ?>
-            </div>
-        </div>
+			<div class="card">
+				<div class="d-flex align-items-center justify-content-between mb-3">
+					<div class="title">Informații Generale</div>
+					<a href="<?php echo esc_url( get_the_permalink( $casino_ID ) ) ?>" class="link">Vezi toate ></a>
+				</div>
+				<?php 
+				$meta_info_1 = get_field('meta_info_1', $casino_ID);
+				if (!empty($meta_info_1['meta_repeater'])):
+					foreach ($meta_info_1['meta_repeater'] as $meta): ?>
+						<div class="border-bottom">
+							<div><?= htmlspecialchars($meta['meta_left']); ?></div>
+							<div class="text-right">
+								<strong><?= htmlspecialchars($meta['meta_right']); ?></strong>
+							</div>
+						</div>
+					<?php endforeach;
+				endif; ?>
+			</div>
+		</div>
 
 				<div class="col-12 col-md-6 col-lg-3 d-none d-lg-block">
-            <div class="card">
-                <div class="title mb-3">Informații despre Bonus</div>
-                <?php 
+			<div class="card">
+				<div class="title mb-3">Informații despre Bonus</div>
+				<?php 
 									$about_info = get_field('about_repeater', $casino_ID);
 									if (!empty($about_info)):
 											foreach ($about_info as $meta): ?>
@@ -194,50 +238,50 @@ if( !empty($block['className']) ) {
 													</div>
 											<?php endforeach;
 									endif; 
-                ?>
-            </div>
-        </div>
+				?>
+			</div>
+		</div>
 
 				<div class="col-12 col-md-6 col-lg-3">
-            <div class="card">
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                    <div class="title">Metode de plata</div>
-                    <a href="https://www.supercazino.ro/depuneri-cazinouri-online-care-platesc/" class="link">Vezi toate ></a>
-                </div>
-                <div class="flex-images">
-                    <?php 
-                    $meta_info_3 = get_field('meta_info_3', $casino_ID);
-                    if (!empty($meta_info_3['meta_repeater'])):
-                        foreach ($meta_info_3['meta_repeater'] as $meta): ?>
-                            <div class="item">
-                                <?= wp_get_attachment_image($meta['meta_img']); ?>
-                            </div>
-                        <?php endforeach;
-                    endif; ?>
-                </div>
-            </div>
-        </div>
+			<div class="card">
+				<div class="d-flex align-items-center justify-content-between mb-3">
+					<div class="title">Metode de plata</div>
+					<a href="https://www.supercazino.ro/depuneri-cazinouri-online-care-platesc/" class="link">Vezi toate ></a>
+				</div>
+				<div class="flex-images">
+					<?php 
+					$meta_info_3 = get_field('meta_info_3', $casino_ID);
+					if (!empty($meta_info_3['meta_repeater'])):
+						foreach ($meta_info_3['meta_repeater'] as $meta): ?>
+							<div class="item">
+								<?= wp_get_attachment_image($meta['meta_img']); ?>
+							</div>
+						<?php endforeach;
+					endif; ?>
+				</div>
+			</div>
+		</div>
 
 				<div class="col-12 col-md-6 col-lg-3 d-none d-lg-block">
-            <div class="card">
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                    <div class="title">Jocuri</div>
-                    <a href="https://www.supercazino.ro/sloturi-gratis/" class="link">Vezi toate ></a>
-                </div>
-                <div class="flex-images has-label">
-                    <?php 
-                    $meta_info_4 = get_field('meta_info_4', $casino_ID);
-                    if (!empty($meta_info_4['meta_repeater'])):
-                        foreach ($meta_info_4['meta_repeater'] as $meta): ?>
-                            <div class="item">
-                                <?= wp_get_attachment_image($meta['meta_img']); ?>
-                                <div><?= htmlspecialchars($meta['meta_info']); ?></div>
-                            </div>
-                        <?php endforeach;
-                    endif; ?>
-                </div>
-            </div>
-        </div>
+			<div class="card">
+				<div class="d-flex align-items-center justify-content-between mb-3">
+					<div class="title">Jocuri</div>
+					<a href="https://www.supercazino.ro/sloturi-gratis/" class="link">Vezi toate ></a>
+				</div>
+				<div class="flex-images has-label">
+					<?php 
+					$meta_info_4 = get_field('meta_info_4', $casino_ID);
+					if (!empty($meta_info_4['meta_repeater'])):
+						foreach ($meta_info_4['meta_repeater'] as $meta): ?>
+							<div class="item">
+								<?= wp_get_attachment_image($meta['meta_img']); ?>
+								<div><?= htmlspecialchars($meta['meta_info']); ?></div>
+							</div>
+						<?php endforeach;
+					endif; ?>
+				</div>
+			</div>
+		</div>
 
 				<a href="<?php echo $site_url; ?>" target="_blank" rel="nofollow" data-casino-name="<?php echo get_the_title( $casino_ID ) ?>" data-offer-type="<?php echo $offer_type_name ?>" class="btn btn--2 d-md-none affiliate-meta-link">PROFITA ACUM</a>
 
