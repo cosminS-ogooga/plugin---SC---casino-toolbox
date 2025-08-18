@@ -30,9 +30,22 @@ $casino_offer_bg_col = get_field( 'background', $casino_ID );
 
 $casino = get_the_title( $casino_ID );
 
+
 $field = get_field_object('casino_custom_offer_type');
-$offer_type_value = $field['value'];
-$offer_type_label = $field['choices'][ $offer_type_value ] ?? '';
+$offer_type_value = 'Not set';
+
+if (!empty($field) && !empty($field['value'])) {
+    $offer_type_value = $field['value'];
+}
+
+$casino_name = get_field( "casino_name",  $casino_ID );
+if (empty($casino_name)) {
+	$casino_name = get_the_title($casino_ID);
+	// Remove all variations of 'Casino' and 'Cazino' (case-insensitive, anywhere in string)
+	$casino_name = preg_replace('/\b(Casino|Cazino)\b/i', '', $casino_name);
+	$casino_name = trim($casino_name);
+}
+$casino_name = strtolower($casino_name);
 
 $casino_position = 'Block - Custom Offer';
 // Create id attribute allowing for custom "anchor" value.
@@ -46,7 +59,7 @@ $className = 'row mb-5 casino-toolbox acf-casino-offer display-' . esc_attr( $ca
 
 
 if ( 'card' == $casino_custom_offer_display ) {
-	$className .= ' card-' . $casino_custom_offer_align_card['value'];
+    $className .= ' card-' . $casino_custom_offer_align_card['value'];
 }
 
 if( !empty($block['className']) ) {
@@ -63,5 +76,5 @@ $block_casino_review_tracking_id = 'review-' . get_the_id() .'-'. $id;
 
 
 <div id="<?php echo esc_attr($id); ?>" class="<?php echo esc_attr($className); ?>">
-	<?php include( 'parts/casino-offer/' . esc_attr( $casino_custom_offer_display ) . '-' . esc_attr( $casino_custom_offer_style ) . '.php' ); ?>
+    <?php include( 'parts/casino-offer/full-row' . '-' . esc_attr( $casino_custom_offer_style ) . '.php' ); ?>
 </div>

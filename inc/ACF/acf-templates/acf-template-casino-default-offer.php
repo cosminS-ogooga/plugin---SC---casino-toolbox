@@ -38,6 +38,17 @@ else {
 $casino_custom_offer_bonus_code =  get_field( $casino_offer_type . "_bonus_code",  $casino_ID);
 $casino_custom_offer_description = get_field( $casino_offer_type . "_offer_info",  $casino_ID);
 
+
+$casino_name = get_field( "casino_name",  $casino_ID );
+if (empty($casino_name)) {
+	$casino_name = get_the_title($casino_ID);
+	// Remove all variations of 'Casino' and 'Cazino' (case-insensitive, anywhere in string)
+	$casino_name = preg_replace('/\b(Casino|Cazino)\b/i', '', $casino_name);
+	$casino_name = trim($casino_name);
+}
+$casino_name = strtolower($casino_name);
+
+
 $low_title = strtolower(get_the_title($casino_ID)) ;
 $low_title = str_replace( " ", "-", $low_title);
 $site_url = get_site_url() . '/goaffcas/' . $casino_offer_type . '-' . $low_title;
@@ -71,7 +82,7 @@ if( !empty($block['className']) ) {
 						url=" ' . $site_url . '" 
 						type_offer=" ' . $offer_type_name . '"
 						offer-location="Block - Default Offer - Logo"
-						casino="' . get_the_title( $casino_ID ) . '" 
+						casino="' . $casino_name . '" 
 						position="0" 
 						class="casino-logo-fit-container"
 					]
@@ -101,7 +112,7 @@ if( !empty($block['className']) ) {
 							url=" ' . $site_url . '" 
 							type_offer=" ' . $offer_type_name . '"
 							offer-location="Block - Default Offer - Offer Title"
-							casino="' . get_the_title( $casino_ID ) . '" 
+							casino="' . $casino_name . '" 
 							position="0"
 							class=""
 						]
@@ -148,7 +159,7 @@ if( !empty($block['className']) ) {
 						url=" ' . $site_url . '" 
 						type_offer=" ' . $offer_type_name . '"
 						offer-location="Block - Default Offer - Button"
-						casino="' . get_the_title( $casino_ID ) . '" 
+						casino="' . $casino_name . '" 
 						position="0" 
 						class="btn btn--2 mb-3"
 					]

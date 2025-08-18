@@ -17,22 +17,63 @@
 		<div
 			class="col-12 col-md-3 col-logo logo-box--bg mb-3 mb-md-0"
 		>
-			<a href="#">
-				<div class="logo-box">
-					<?php echo get_the_post_thumbnail( $casino_ID, 'full' ); ?>
-				</div>
-			</a>
+			<?php
+					//Affiliation shortcode 
+					echo do_shortcode('
+						[affiliate_link 
+							id="aff-' . $casino_ID . '"
+							url=" ' . esc_url( $casino_custom_offer_affiliation_link ) . '" 
+							type_offer="' . $offer_type_value . '"
+							offer-location="Block - Custom Offer - Logo"
+							casino="' . $casino_name . '" 
+							position="0" 
+							class="casino-logo-fit-container"
+						]
+							<div class="logo-box">' . get_the_post_thumbnail( $casino_ID, 'full' ) . '</div>
+						[/affiliate_link]'
+					); 
+				?>
 		</div>
 		<div class="col-12 col-md-6 align-self-center col-info">
 			<div class="offer-title mb-3">
-				<?php echo esc_html( $casino_custom_offer_main_title ); ?>
+					<?php
+						//Affiliation shortcode 
+						echo do_shortcode('
+							[affiliate_link 
+								id="aff-' . $casino_ID . '"
+								url=" ' . esc_url( $casino_custom_offer_affiliation_link ) . '" 
+								type_offer="' . $offer_type_value . '"
+								offer-location="Block - Custom Offer - Offer text"
+								casino="' . $casino_name . '" 
+								position="0" 
+								class=""
+							]
+								' . esc_html( $casino_custom_offer_main_title ) . '
+							[/affiliate_link]'
+						); 
+					?>
 				<?php if ( $casino_custom_offer_secondary_title ) echo '<p class="secondary-title">' . esc_html( $casino_custom_offer_secondary_title ) . '</p>' ?>
 			</div>
 		</div>
 		<div
 			class="col-12 col-md-3 align-self-center col-rating d-flex flex-column align-items-center justify-content-center"
 		>
-			<a href="<?php echo esc_url( $casino_custom_offer_affiliation_link ) ?>" target="_blank" data-casino-name="<?php echo get_the_title( $casino_ID ) ?>" data-offer-type="Custom" class="btn btn--1 affiliate-meta-link"><?php echo esc_html( $casino_custom_offer_affiliation_text ); ?></a>
+					<?php
+						//Affiliation shortcode 
+						echo do_shortcode('
+							[affiliate_link 
+								id="aff-' . $casino_ID . '"
+								url=" ' . esc_url( $casino_custom_offer_affiliation_link ) . '" 
+								type_offer="' . $offer_type_value . '"
+								offer-location="Block - Custom Offer - Button"
+								casino="' . $casino_name . '" 
+								position="0" 
+								class="btn btn--1"
+							]
+								' . esc_html( $casino_custom_offer_affiliation_text ) . '
+							[/affiliate_link]'
+						); 
+					?>
 			<?php if ( $casino_custom_offer_review_link ) echo '<a rel="nofollow" class="casino-review" href="' . esc_url( get_the_permalink( $casino_ID ) )  . '">casino review</a>' ?>
 		</div>
 	</div>
