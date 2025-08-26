@@ -205,7 +205,22 @@ if( !empty($block['className']) ) {
 				<a href="<?php echo esc_url( get_the_permalink( $casino_ID ) ) ?>" class="casino-review">Recenzie <?php echo get_the_title( $casino_ID ); ?></a>
 			</div>
 			<div>
-				<a href="<?php echo $site_url; ?>" target="_blank" rel="nofollow" data-casino-name="<?php echo get_the_title( $casino_ID ) ?>" data-offer-type="<?php echo $offer_type_name ?>" class="btn btn--2 referral affiliate-meta-link">Profită Acum</a>
+				<?php
+				//Affiliation shortcode 
+				echo do_shortcode('
+					[affiliate_link 
+						id="aff-' . $casino_ID . '"
+						url=" ' . $site_url . '" 
+						type_offer=" ' . $offer_type_name . '"
+						offer-location="Block - Default Offer - Button"
+						casino="' . $casino_name . '" 
+						position="0" 
+						class="btn btn--2"
+					]
+						Profită Acum
+					[/affiliate_link]'
+				); 
+			?>
 			</div>
 		</div>
 
@@ -294,8 +309,22 @@ if( !empty($block['className']) ) {
 			</div>
 		</div>
 
-				<a href="<?php echo $site_url; ?>" target="_blank" rel="nofollow" data-casino-name="<?php echo get_the_title( $casino_ID ) ?>" data-offer-type="<?php echo $offer_type_name ?>" class="btn btn--2 d-md-none affiliate-meta-link">PROFITA ACUM</a>
-
+				<?php
+				//Affiliation shortcode 
+				echo do_shortcode('
+					[affiliate_link 
+						id="aff-' . $casino_ID . '"
+						url=" ' . $site_url . '" 
+						type_offer=" ' . $offer_type_name . '"
+						offer-location="Block - Default Offer - Button"
+						casino="' . $casino_name . '" 
+						position="0" 
+						class="btn btn--2 mb-3"
+					]
+						Profită Acum
+					[/affiliate_link]'
+				); 
+			?>
 
 				<div class="col-12">
 					<div class="card tac">
